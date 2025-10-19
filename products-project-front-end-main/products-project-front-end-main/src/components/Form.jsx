@@ -1,55 +1,60 @@
 import PropTypes from "prop-types";
-
-export const Form = ({ onCreateProduct }) => {
+export const Form = ({ onCreateUser }) => {
   return (
     <>
       <div className="form-container">
-        <h2>Crear Nuevo Producto</h2>
-        <form onSubmit={onCreateProduct} className="product-form">
+        <h2>Crear Nuevo Usuario</h2>
+        <form onSubmit={onCreateUser} className="product-form">
           <div className="form-group">
             <input
               type="text"
               name="name"
-              placeholder="Nombre del producto"
-              required
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="number"
-              name="price"
-              placeholder="Precio"
-              min="0"
-              step="0.01"
+              placeholder="Nombre completo"
               required
             />
           </div>
           <div className="form-group">
             <input
               type="text"
-              name="category"
-              placeholder="Categoría"
+              name="phone"
+              placeholder="Teléfono"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="address"
+              placeholder="Dirección"
               required
             />
           </div>
           <div className="form-group">
             <input
               type="number"
-              name="stock"
-              placeholder="Stock"
+              name="age"
+              placeholder="Edad"
               required
             />
           </div>
           <div className="form-group">
             <input
               type="url"
-              name="image"
-              placeholder="URL de la imagen"
+              name="photoUrl"
+              placeholder="URL de la foto"
               required
             />
           </div>
           <button type="submit" className="btn-primary">
-            Crear Producto
+            Crear Usuario
           </button>
         </form>
       </div>
@@ -58,9 +63,9 @@ export const Form = ({ onCreateProduct }) => {
 };
 
 Form.propTypes = {
-  onCreateProduct: PropTypes.func.isRequired,
+  onCreateUser: PropTypes.func.isRequired,
 };
 
 Form.defaultProps = {
-  onCreateProduct: () => {},
+  onCreateUser: () => {},
 };

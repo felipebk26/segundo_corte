@@ -1,55 +1,52 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Products } from "./components/Products";
+import { Users } from "./components/Users";
 import { Form } from "./components/Form";
 
 function App() {
-  const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const getProducts = async () => {
-    const response = await fetch("http://localhost:3001/products");
+  
+  const getUsers = async () => {
+    const response = await fetch("http://localhost:3000/users");
     const data = await response.json();
-    setProducts(data.products);
+    setUsers(data.users);
   };
 
-  const handleCreateProduct = async (e) => {
+  
+  const handleCreateUser = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:3001/products", {
+    const response = await fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: e.target.name.value,
-        price: e.target.price.value,
-        category: e.target.category.value,
-        stock: e.target.stock.value,
-        image: e.target.image.value,
+        phone: e.target.phone.value,
+        email: e.target.email.value,
+        address: e.target.address.value,
+        age: e.target.age.value,
+        photoUrl: e.target.photoUrl.value,
       }),
     });
 
     if (response.ok) {
-      e.target.reset();
-      getProducts();
+      e.target.reset(); 
+      getUsers(); 
     }
   };
 
-  /*
-   useEffect: hook para ejecutar efectos secundarios como llamadas a APIs, conexiones con websockets, conexiones con bases de datos, etc.
-
-   Cuando se carga el componente se ejecuta el getProducts.
-   Llamar funciones directamente en el cuerpo del componente causa bucles infinitos porque se ejecuta en cada render, no solo al montar.
-   Esta es una de las reglas fundamentales de React: los efectos secundarios (como llamadas a APIs) deben ir dentro de useEffect.
-  */
+  
   useEffect(() => {
-    getProducts();
+    getUsers();
   }, []);
 
   return (
     <div className="app">
-      <h1>Gestión de Productos</h1>
-      <Form onCreateProduct={handleCreateProduct} />
-      <Products products={products} />
+      <h1>Sistema de Usuarios - Parcial 2do Corte</h1>
+      <Form onCreateUser={handleCreateUser} />
+      <Users users={users} />
     </div>
   );
 }

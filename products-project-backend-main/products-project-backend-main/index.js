@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
-const port = 3001;
-const products = require('./data/products');
+const port = 3000; 
+let users = require('./data/users'); 
 
-// middleware para parsear el body
+
 app.use(express.json());
 
-// middleware para permitir cors
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE");
@@ -17,97 +17,52 @@ app.use((req, res, next) => {
 // http://localhost:3000/
 app.get("/", (req, res) => {
   res.status(200).json({
-    message: "Hello!",
+    message: "API de usuarios - Parcial 2do corte",
     timestamp: new Date().toISOString(),
     status: "success",
   });
 });
 
-// get all products
-// http://localhost:3000/products
-app.get('/products', (req, res) => {
+
+// https://localhost:3000/users
+app.get('/users', (req, res) => {
   res.json({
-    message: 'Productos',
+    message: 'Lista de usuarios',
     timestamp: new Date().toISOString(),
     status: 'success',
-    products: products
+    users: users
   });
 });
 
-// get product by id
-app.get('/products/:id', (req, res) => {
-  const { id } = req.params;
-  const product = products.find((product) => product.id === id);
-  if (!product) {
-    return res.status(404).json({
-      message: 'Producto no encontrado',
-      timestamp: new Date().toISOString(),
-      status: 'error',
-    });
-  }
-  res.json({
-    message: 'Producto',
-    timestamp: new Date().toISOString(),
-    status: 'success',
-    product: product
-  });
-});
 
-// create product - http://localhost:3000/products
-app.post('/products', (req, res) => {
-  const { name, price, category, stock, image } = req.body;
-  const product = { id: (products.length + 1).toString(), name, price, category, stock, image };
-  products.push(product);
-  res.json({
-    message: 'Producto creado',
-    timestamp: new Date().toISOString(),
-    status: 'success',
-    product: product
-  });
-});
+// https://localhost:3000/users
 
-// update product
-app.put('/products/:id', (req, res) => {
-  const { id } = req.params;
-  const { name, price } = req.body;
-  const product = products.find((product) => product.id === id);
-  if (!product) {
-    return res.status(404).json({
-      message: 'Producto no encontrado',
-      timestamp: new Date().toISOString(),
-      status: 'error',
-    });
-  }
-  product.name = name;
-  product.price = price;
+app.post('/users', (req, res) => {
+  
+  const { name, phone, email, address, age, photoUrl } = req.body;
+  
+  
+  const user = { 
+    id: Date.now().toString(), 
+    name: name, 
+    phone: phone, 
+    email: email, 
+    address: address, 
+    age: parseInt(age), 
+    photoUrl: photoUrl 
+  };
+  
+ 
+  users.unshift(user);
+  
   res.json({
-    message: 'Producto actualizado',
+    message: 'Usuario creado exitosamente',
     timestamp: new Date().toISOString(),
     status: 'success',
-    product: product
-  });
-});
-
-// delete product
-app.delete('/products/:id', (req, res) => {
-  const { id } = req.params;
-  const product = products.find((product) => product.id === id);
-  if (!product) {
-    return res.status(404).json({
-      message: 'Producto no encontrado',
-      timestamp: new Date().toISOString(),
-      status: 'error',
-    });
-  }
-  products = products.filter((product) => product.id !== id);
-  res.json({
-    message: 'Producto eliminado',
-    timestamp: new Date().toISOString(),
-    status: 'success',
-    product: product
+    user: user
   });
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`Servidor corriendo en puerto ${port}`);
 });

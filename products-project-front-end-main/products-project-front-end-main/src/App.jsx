@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Users } from "./components/Users";
+import { Users } from "./components/user";
 import { Form } from "./components/Form";
 
 function App() {
   const [users, setUsers] = useState([]);
 
-  
   const getUsers = async () => {
     const response = await fetch("http://localhost:3000/users");
     const data = await response.json();
     setUsers(data.users);
   };
 
-  
   const handleCreateUser = async (e) => {
     e.preventDefault();
     const response = await fetch("http://localhost:3000/users", {
